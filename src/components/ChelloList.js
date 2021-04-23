@@ -8,16 +8,17 @@ const styles = {
     width: 300,
     padding: 8,
     marginRight: 8,
+    height: "100%",
   },
 };
-export default function ChelloList({ title, cards }) {
+export default function ChelloList({ title, cards, listId }) {
   return (
     <div style={styles.container}>
       <h4>{title}</h4>
       {cards.map((card) => (
         <ChelloCard key={card.id} text={card.text} />
       ))}
-      <ActionButton list={false} />
+      <ActionButton list={false} listId={listId} />
     </div>
   );
 }
