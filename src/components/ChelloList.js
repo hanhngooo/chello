@@ -1,6 +1,7 @@
 import React from "react";
 import ChelloCard from "./ChelloCard";
 import ActionButton from "./ActionButton";
+import { Droppable } from "react-beautiful-dnd";
 const styles = {
   container: {
     backgroundColor: "#e5e5e5",
@@ -11,14 +12,31 @@ const styles = {
     height: "100%",
   },
 };
-export default function ChelloList({ title, cards, listId }) {
+const ChelloList = ({ title, cards, listId }) => {
   return (
-    <div style={styles.container}>
-      <h4>{title}</h4>
-      {cards.map((card) => (
-        <ChelloCard key={card.id} text={card.text} />
-      ))}
-      <ActionButton list={false} listId={listId} />
-    </div>
+    <Droppable droppableId={String(listId)} index={listId} type="LIST">
+      {(provided) => {
+        return (
+          <div
+            {...provided.droppableProps}
+            style={styles.container}
+            ref={provided.innerRef}
+          >
+            <h4>{title}</h4>
+            {cards.map((card, index) => (
+              <ChelloCard
+                key={card.id}
+                text={card.text}
+                id={card.id}
+                index={index}
+              />
+            ))}
+            <ActionButton list={false} listId={listId} />
+            {provided.placeholder}
+          </div>
+        );
+      }}
+    </Droppable>
   );
-}
+};
+export default ChelloList;
